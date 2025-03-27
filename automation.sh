@@ -7,11 +7,9 @@ TEST_IDS=(
     "2aa1c99e-0581-49f6-8a63-f4cfc334cd8d"
 )
 
-COUNTER=1
-
 for TEST_ID in "${TEST_IDS[@]}"
 do
-    CODE_NAME="py-sele-${COUNTER}" # Generate dynamic code_name
+     CODE_NAME="py-sele-$(date +%Y%m%d%H%M%S)" # Generate dynamic code_name
     echo "Calling API for Test ID: $TEST_ID with code_name: $CODE_NAME"
     curl "https://stage-test-manager-api.lambdatestinternal.com/api/atm/v1/test/$TEST_ID/code" \
         -u "$USERNAME:$ACCESS_KEY" \
@@ -65,6 +63,4 @@ do
         echo "Status: $STATUS. Retrying in 15 seconds..."
         sleep 15
     done
-
-    COUNTER=$((COUNTER + 1)) # Increment the counter for the next code_name
 done
