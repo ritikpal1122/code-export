@@ -3,14 +3,16 @@
 USERNAME="${USERNAME}"
 ACCESS_KEY="${ACCESS_KEY}"
 
-
 TEST_IDS=(
     "2aa1c99e-0581-49f6-8a63-f4cfc334cd8d"
 )
 
+COUNTER=1
+
 for TEST_ID in "${TEST_IDS[@]}"
 do
-    echo "Calling API for Test ID: $TEST_ID"
+    CODE_NAME="py-sele-${COUNTER}" # Generate dynamic code_name
+    echo "Calling API for Test ID: $TEST_ID with code_name: $CODE_NAME"
     curl "https://stage-test-manager-api.lambdatestinternal.com/api/atm/v1/test/$TEST_ID/code" \
         -u "$USERNAME:$ACCESS_KEY" \
         -H 'accept: application/json' \
@@ -28,7 +30,7 @@ do
         -H 'sec-fetch-mode: cors' \
         -H 'sec-fetch-site: same-site' \
         -H 'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36' \
-        --data-raw '{"code_name":"r6","language":"python","framework":"selenium","folder_name":"","accessibility":"false"}'
+        --data-raw "{\"code_name\":\"$CODE_NAME\",\"language\":\"python\",\"framework\":\"selenium\",\"folder_name\":\"\",\"accessibility\":\"false\"}"
     echo -e "\nDone with $TEST_ID"
 
     STATUS=""
@@ -63,4 +65,6 @@ do
         echo "Status: $STATUS. Retrying in 15 seconds..."
         sleep 15
     done
+
+    COUNTER=$((COUNTER + 1)) # Increment the counter for the next code_name
 done
