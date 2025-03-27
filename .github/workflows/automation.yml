@@ -1,0 +1,26 @@
+name: Run Automation Script
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  run-automation:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set Up jq
+        run: sudo apt-get install -y jq
+
+      - name: Run Automation Script
+        env:
+          USERNAME: ${{ secrets.USERNAME }}
+          ACCESS_KEY: ${{ secrets.ACCESS_KEY }}
+        run: |
+          chmod +x ./automation.sh
+          ./automation.sh
