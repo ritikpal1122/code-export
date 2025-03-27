@@ -21,6 +21,7 @@ jobs:
         env:
           USERNAME: ${{ secrets.USERNAME }}
           ACCESS_KEY: ${{ secrets.ACCESS_KEY }}
+          RUN_NUMBER: ${{ github.run_number }}
         run: |
           chmod +x ./automation.sh
           ./automation.sh

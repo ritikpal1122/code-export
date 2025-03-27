@@ -2,6 +2,7 @@
 
 USERNAME="${USERNAME}"
 ACCESS_KEY="${ACCESS_KEY}"
+RUN_NUMBER="${RUN_NUMBER}"
 
 TEST_IDS=(
     "2aa1c99e-0581-49f6-8a63-f4cfc334cd8d"
@@ -9,7 +10,7 @@ TEST_IDS=(
 
 for TEST_ID in "${TEST_IDS[@]}"
 do
-     CODE_NAME="py-sele-$(date +%Y%m%d%H%M%S)" # Generate dynamic code_name
+  CODE_NAME="py-sele-#${RUN_NUMBER}"
     echo "Calling API for Test ID: $TEST_ID with code_name: $CODE_NAME"
     curl "https://stage-test-manager-api.lambdatestinternal.com/api/atm/v1/test/$TEST_ID/code" \
         -u "$USERNAME:$ACCESS_KEY" \
